@@ -19,7 +19,7 @@ RUN apt-get update -y \
 && apt-get -y install nodejs \
 && node -v && npm --version \
 && npm install -g protractor \
-&& protractor --version ]
+&& protractor --version \
 && webdriver-manager update
 
 RUN echo "deb stable main" | sudo tee -a /etc/apt/sources.list
