@@ -20,7 +20,7 @@ RUN apt-get update -y \
 && node -v && npm --version \
 && npm install -g protractor \
 && protractor --version \
-&& webdriver-manager update
+&& webdriver-manager update \
 
 RUN echo "deb stable main" | sudo tee -a /etc/apt/sources.list
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
@@ -37,4 +37,7 @@ WORKDIR /protractor/
 
 COPY conf.js /protractor/conf.js
 COPY spec.js /protractor/spec.js
-RUN npm test && ls -la
+COPY package.json /protractor/package.json
+
+RUN webdriver-manager start & \
+&& npm test && ls -la
