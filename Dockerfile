@@ -39,5 +39,5 @@ COPY conf.js /protractor/conf.js
 COPY spec.js /protractor/spec.js
 COPY package.json /protractor/package.json
 
-RUN webdriver-manager start --standalone &
+RUN whereis google-chrome && webdriver-manager start --standalone &
 RUN npm test && ls -la
