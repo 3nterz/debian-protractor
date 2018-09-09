@@ -20,17 +20,19 @@ RUN apt-get update -y \
 && node -v && npm --version \
 && npm install -g protractor \
 && protractor --version \
-&& webdriver-manager update \
+&& webdriver-manager update
 
-RUN echo "deb stable main" | sudo tee -a /etc/apt/sources.list
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+RUN echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list 
+
 RUN apt-get update -y \
 && apt-get install -y libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 \
 google-chrome-stable \
 xvfb gtk2-engines-pixbuf \
 xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable \
-imagemagick x11-apps dbus-x11 \
- xvfb-run -a --server-args="-screen 0 2880x1800x24" &
+imagemagick x11-apps dbus-x11
+
+RUN xvfb-run -a --server-args="-screen 0 2880x1800x24" &
 
 # Set the working directory
 WORKDIR /protractor/
@@ -40,5 +42,4 @@ COPY spec.js /protractor/spec.js
 COPY package.json /protractor/package.json
 
 RUN webdriver-manager start --standalone &
-RUN whereis google-chrome
 RUN npm test && ls -la
