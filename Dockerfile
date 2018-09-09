@@ -19,19 +19,18 @@ RUN apt-get update -y \
 && apt-get -y install nodejs \
 && node -v && npm --version \
 && npm install -g protractor \
-&& protractor --version
+&& protractor --version ]
 && webdriver-manager update
 
 RUN echo "deb stable main" | sudo tee -a /etc/apt/sources.list
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-apt-get update -y \
+RUN apt-get update -y \
 && apt-get install -y libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 \
 google-chrome-stable \
 xvfb gtk2-engines-pixbuf \
 xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable \
-imagemagick x11-apps dbus-x11
-
-xvfb-run -a --server-args="-screen 0 2880x1800x24" &
+imagemagick x11-apps dbus-x11 \
+ xvfb-run -a --server-args="-screen 0 2880x1800x24" &
 
 # Set the working directory
 WORKDIR /protractor/
